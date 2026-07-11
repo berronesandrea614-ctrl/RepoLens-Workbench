@@ -1,0 +1,5 @@
+# 本机端口 9000/9001 被其他项目的 MinIO 占用；Milvus 只经 docker 内网访问 minio，
+# 宿主机不需要绑定端口，故重置掉。仅本机开发用。
+services:
+  minio:
+    ports: !reset []

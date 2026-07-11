@@ -1,0 +1,1 @@
+这个项目里 com.demo.Pal.isPalindrome(String) 的实现有 bug：它没有忽略大小写和非字母数字字符。请修复它，使其判断"只看字母和数字、忽略大小写"意义下的回文：isPalindrome("A man, a plan, a canal: Panama") 应为 true，isPalindrome("race a car") 应为 false，isPalindrome("") 应为 true，isPalindrome("Ab") 应为 false，isPalindrome("aba") 应为 true。修完确保 mvn 编译通过。

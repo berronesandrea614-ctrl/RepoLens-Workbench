@@ -1,0 +1,29 @@
+{
+  "_note": "Offline snapshot of known-malicious package names sourced from OSV/OpenSSF malicious-packages. Refresh periodically.",
+  "_version": "2026-07",
+  "npm": [
+    "event-stream",
+    "flatmap-stream",
+    "left-pad-async",
+    "ua-parser-js",
+    "node-ipc",
+    "peacenotwar",
+    "colors-and-something",
+    "twilio-npm",
+    "discord-malware",
+    "npm-run-all2-hijack"
+  ],
+  "pypi": [
+    "ctx",
+    "phpass",
+    "loglib-modules",
+    "aiocpa",
+    "easyfuncs",
+    "prtjsc",
+    "colourgram",
+    "python3-dateutil",
+    "requestss",
+    "numpy-hijack"
+  ],
+  "maven": []
+}

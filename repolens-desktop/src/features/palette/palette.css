@@ -1,0 +1,15 @@
+.palette-overlay { position: fixed; inset: 0; z-index: 100; background: transparent; }
+.palette { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 560px;
+  background: var(--vs-sidebar); border: 1px solid var(--vs-border); border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5); overflow: hidden; }
+.palette input { width: 100%; box-sizing: border-box; background: var(--vs-input-bg);
+  color: var(--vs-fg); border: 1px solid var(--vs-accent); border-radius: 3px; margin: 8px;
+  width: calc(100% - 16px); padding: 5px 8px; font-size: 13px; outline: none; }
+.palette-list { max-height: 320px; overflow: auto; padding-bottom: 4px; }
+.palette-item { display: flex; align-items: center; gap: 8px; padding: 4px 12px; cursor: pointer;
+  font-size: 13px; white-space: nowrap; overflow: hidden; }
+.palette-item.selected { background: #094771; }
+.palette-item .codicon { font-size: 15px; flex-shrink: 0; }
+.palette-name { flex-shrink: 0; }
+.palette-dir { color: var(--vs-fg-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
+.palette-empty { padding: 12px; color: var(--vs-fg-dim); font-size: 12px; }

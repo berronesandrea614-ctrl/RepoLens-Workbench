@@ -1,0 +1,332 @@
+/* 出网监控面板样式（独立活动栏工具）。视觉沿用 VS Code 设置的清爽分区风格。 */
+
+.egress-view {
+  height: 100%;
+  overflow: hidden;
+  background: var(--vs-editor-bg, var(--vs-bg));
+  color: var(--vs-fg);
+}
+
+.egress-scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 28px 48px;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+.egress-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.egress-subtitle {
+  font-size: 13px;
+  color: var(--vs-fg-dim);
+  margin: 0 0 20px;
+}
+
+.egress-section {
+  border-top: 1px solid var(--vs-border);
+  padding-top: 18px;
+  margin-top: 8px;
+}
+
+.egress-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.egress-section-head {
+  margin-bottom: 12px;
+}
+
+.egress-section-head h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.egress-section-desc {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.egress-field {
+  margin: 12px 0;
+}
+
+.egress-field > label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.egress-field-desc {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+  line-height: 1.4;
+  margin: 0 0 6px;
+}
+
+/* ─── 出网模式单选卡片（修复：说明文字横向正常显示） ─────────────────────── */
+
+.egress-mode-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 560px;
+}
+
+.egress-mode-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--vs-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.egress-mode-option:hover {
+  background: var(--vs-list-hover);
+}
+
+.egress-mode-option.selected {
+  border-color: var(--vs-accent);
+  background: color-mix(in srgb, var(--vs-accent) 8%, transparent);
+}
+
+.egress-mode-option input[type="radio"] {
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--vs-accent);
+}
+
+.egress-mode-icon {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* 关键修复：给文字块 flex:1 + min-width:0，占满剩余横向空间，
+   避免它被 icon/radio 挤成零宽后逐字竖排换行。 */
+.egress-mode-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.egress-mode-label {
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.egress-mode-desc {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+  line-height: 1.4;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.egress-allowlist-editor {
+  background: var(--vs-input-bg);
+  color: var(--vs-fg);
+  border: 1px solid var(--vs-border);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: var(--vs-mono-font, monospace);
+  width: 100%;
+  max-width: 560px;
+  box-sizing: border-box;
+  resize: vertical;
+  outline: none;
+}
+
+.egress-allowlist-editor:focus {
+  border-color: var(--vs-accent);
+}
+
+/* ─── 操作区 ───────────────────────────────────────────────────────────── */
+
+.egress-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.egress-btn {
+  font-size: 13px;
+  padding: 5px 14px;
+  border: 1px solid var(--vs-border);
+  border-radius: 3px;
+  background: var(--vs-input-bg);
+  color: var(--vs-fg);
+  cursor: pointer;
+}
+
+.egress-btn:hover:not(:disabled) {
+  background: var(--vs-list-hover);
+}
+
+.egress-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.egress-btn-primary {
+  background: var(--vs-accent);
+  border-color: var(--vs-accent);
+  color: #fff;
+}
+
+.egress-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  background: var(--vs-accent);
+}
+
+.egress-test {
+  font-size: 12px;
+}
+
+.egress-test.ok {
+  color: #89d185;
+}
+
+.egress-test.fail {
+  color: #f48771;
+}
+
+.egress-hint {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+}
+
+/* ─── 统计 ─────────────────────────────────────────────────────────────── */
+
+.egress-stats-row {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0 12px;
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+}
+
+.egress-stat strong {
+  color: var(--vs-fg);
+}
+
+.egress-stat-blocked strong {
+  color: #f48771;
+}
+
+.egress-stat-allowed strong {
+  color: #89d185;
+}
+
+/* ─── 出网记录表格 ─────────────────────────────────────────────────────── */
+
+.egress-blocked-hint {
+  color: #f48771;
+  font-weight: 600;
+}
+
+.egress-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--vs-border);
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.egress-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.egress-table th,
+.egress-table td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--vs-border);
+  white-space: nowrap;
+}
+
+.egress-table th {
+  background: var(--vs-panel-bg, var(--vs-input-bg));
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.egress-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.egress-table tbody tr:hover {
+  background: var(--vs-list-hover);
+}
+
+.egress-row-blocked {
+  background: color-mix(in srgb, #f48771 8%, transparent) !important;
+}
+
+.egress-row-blocked td {
+  color: #f48771;
+}
+
+.egress-cell-ts {
+  font-family: var(--vs-mono-font, monospace);
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+}
+
+.egress-cell-host {
+  font-family: var(--vs-mono-font, monospace);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.egress-cell-mode {
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+  font-family: var(--vs-mono-font, monospace);
+}
+
+.egress-loopback-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+  background: color-mix(in srgb, #89d185 15%, transparent);
+  color: #89d185;
+  border-radius: 3px;
+  font-size: 10px;
+  font-family: inherit;
+}
+
+.egress-status-allowed {
+  color: #89d185;
+  font-weight: 600;
+}
+
+.egress-status-blocked {
+  color: #f48771;
+  font-weight: 600;
+}

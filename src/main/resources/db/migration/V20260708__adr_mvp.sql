@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS adr (
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    repo_id       BIGINT        NOT NULL,
+    user_id       BIGINT        NOT NULL,
+    number        INT           NULL COMMENT 'per-repo sequential ADR number, assigned on accept (NULL while PROPOSED)',
+    title         VARCHAR(255)  NOT NULL,
+    status        VARCHAR(16)   NOT NULL DEFAULT 'PROPOSED' COMMENT 'PROPOSED/ACCEPTED/SUPERSEDED',
+    context       TEXT          NULL,
+    decision      TEXT          NULL,
+    consequences  TEXT          NULL,
+    drivers_json  TEXT          NULL COMMENT 'JSON array of decision drivers',
+    options_json  TEXT          NULL COMMENT 'JSON array of considered options',
+    source_type   VARCHAR(24)   NOT NULL DEFAULT 'REQUIREMENT' COMMENT 'REQUIREMENT/DECISION_MEMORY/MANUAL',
+    source_id     BIGINT        NULL COMMENT 'requirement id / memory id',
+    file_path     VARCHAR(512)  NULL COMMENT 'docs/adr/NNNN.md once accepted',
+    superseded_by BIGINT        NULL,
+    degraded      TINYINT(1)    NOT NULL DEFAULT 0,
+    created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uk_adr_repo_number (repo_id, number),
+    KEY idx_adr_repo (repo_id),
+    KEY idx_adr_status (status)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

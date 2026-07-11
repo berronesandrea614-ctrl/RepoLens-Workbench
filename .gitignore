@@ -1,0 +1,36 @@
+# Java / Maven
+target/
+*.class
+
+# Node
+node_modules/
+dist/
+
+# Tauri / Rust
+src-tauri/target/
+
+# Local repo snapshots & workspace
+workspace/repos/
+workspace/git-fixture/
+
+# Logs (all *.log files and git daemon logs)
+*.log
+*.err.log
+
+# OS / IDE
+.DS_Store
+.idea/
+*.iml
+
+# Env / secrets
+.env
+run-local.sh
+
+# Office/WPS 临时锁文件
+.~*
+**/.~*
+~$*
+.llm-demo.env
+
+# 影子工作区运行时目录（内核隔离副本，不入库）
+workspace/shadow/

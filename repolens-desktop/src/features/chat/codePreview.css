@@ -1,0 +1,5 @@
+.code-preview { background: #0d1117; border-radius: 6px; overflow: auto; font-size: 12px; }
+.code-preview-table { border-collapse: collapse; width: 100%; font-family: "SF Mono", Menlo, Consolas, monospace; }
+.code-gutter { color: #6e7681; text-align: right; padding: 0 10px; user-select: none;
+  white-space: nowrap; vertical-align: top; }
+.code-line { color: #c9d1d9; white-space: pre; padding: 0 12px; width: 100%; }

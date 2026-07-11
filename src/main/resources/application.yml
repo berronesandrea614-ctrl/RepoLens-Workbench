@@ -1,0 +1,198 @@
+server:
+  port: 8080
+  # Graceful shutdown: drain in-flight requests for up to 30s before stopping
+  shutdown: graceful
+
+spring:
+  application:
+    name: repolens
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  datasource:
+    url: jdbc:mysql://localhost:3307/repolens?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: repolens
+    password: repolens123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000ms
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+# Actuator: expose health (with liveness/readiness probes), info, and prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        # Enables /actuator/health/liveness and /actuator/health/readiness
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    # Default: suppress SQL logging; dev profile overrides to Slf4jImpl for debug visibility
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: repolens-index-producer
+    send-message-timeout: 5000
+
+repolens:
+  # Use relative path for portability (overridable via -D or env in run-local.sh / start-all.sh)
+  repo-storage-root: "${user.home}/repolens-workspace/repos"
+  repo:
+    allow-local-file-url: ${REPOLENS_REPO_ALLOW_LOCAL_FILE_URL:true}
+    allowed-local-repo-root: ${REPOLENS_REPO_ALLOWED_LOCAL_REPO_ROOT:${user.home}}
+  max-file-size-bytes: 1048576
+  security:
+    prompt-injection-check-enabled: true
+  feishu:
+    # 飞书指令用 `claude -p` 在真实项目目录跑（干净纯文本，无 TUI 碎片刷屏）；false=旧的写进 TUI 模式
+    headless-mode: true
+    # claude CLI 路径；启动时自动探测常见安装位置，也可用 REPOLENS_CLAUDE_BIN 覆盖
+    claude-bin: ${REPOLENS_CLAUDE_BIN:claude}
+    # headless 单条指令超时（毫秒）
+    headless-timeout-ms: 180000
+  agent:
+    # 多步 agent（ReAct 工具循环）默认开启，让"多 agent"成为主路径；可用 env 覆盖。
+    enabled: ${REPOLENS_AGENT_ENABLED:true}
+    max-iterations: ${REPOLENS_AGENT_MAX_ITERATIONS:5}
+    reflection-enabled: ${REPOLENS_AGENT_REFLECTION_ENABLED:false}
+    # 启动 agent 前先做一轮 plan 规划（Plan-and-Execute），多一次 LLM 调用，默认关闭。
+    planning-enabled: ${REPOLENS_AGENT_PLANNING_ENABLED:false}
+    code-max-iterations: 10
+    wall-clock-budget-ms: ${REPOLENS_AGENT_WALL_CLOCK_BUDGET_MS:90000}
+    max-tool-turns: ${REPOLENS_AGENT_MAX_TOOL_TURNS:8}
+    edit:
+      require-read-first: true
+    bash-enabled: false
+  context:
+    compact-trigger-ratio: 0.92
+    compact-target-ratio: 0.70
+    window-tokens:
+      deepseek-chat: 65536
+      deepseek-v4-pro: 65536
+    syntax-guard-enabled: true
+    edit-format: auto
+  shadow:
+    root: ./workspace/shadow
+    ttl-hours: 24
+  # 自研内核（kernel.*）接主链路：增量替换开关。开启后 code 模式流式走新内核 agent 主循环。
+  kernel:
+    agent-enabled: ${REPOLENS_KERNEL_AGENT_ENABLED:false}
+    max-tokens: ${REPOLENS_KERNEL_MAX_TOKENS:0}
+    wall-clock-ms: ${REPOLENS_KERNEL_WALL_CLOCK_MS:120000}
+  memory:
+    # 短期对话记忆（近 N 轮回喂）+ 长期跨会话记忆（抽取沉淀→召回回喂）。
+    history-turns: ${REPOLENS_MEMORY_HISTORY_TURNS:3}
+    history-max-chars: ${REPOLENS_MEMORY_HISTORY_MAX_CHARS:4000}
+    longterm-enabled: ${REPOLENS_MEMORY_LONGTERM_ENABLED:true}
+    recall-k: ${REPOLENS_MEMORY_RECALL_K:5}
+  llm:
+    provider: ${REPOLENS_LLM_PROVIDER:mock}
+    model-name: ${REPOLENS_LLM_MODEL_NAME:mock-code-assistant}
+    # 本地 Ollama：设 REPOLENS_LLM_PROVIDER=ollama、REPOLENS_LLM_BASE_URL=http://localhost:11434/v1、
+    # REPOLENS_LLM_MODEL_NAME=<本地模型名，如 qwen2.5-coder>；api-key 可留空（Ollama 不需要）。
+    base-url: ${REPOLENS_LLM_BASE_URL:}
+    api-key: ${REPOLENS_LLM_API_KEY:}
+    timeout-ms: ${REPOLENS_LLM_TIMEOUT_MS:15000}
+    max-context-chars: ${REPOLENS_LLM_MAX_CONTEXT_CHARS:12000}
+    max-answer-chars: ${REPOLENS_LLM_MAX_ANSWER_CHARS:4000}
+    mock-force-fail: ${REPOLENS_LLM_MOCK_FORCE_FAIL:false}
+    # FAST 模型（缺省回落 PRIMARY），用于标题/摘要/分类等轻量任务
+    fast:
+      model-name: ${REPOLENS_LLM_FAST_MODEL_NAME:}
+  embedding:
+    # provider=mock：默认，纯本地伪向量，无需任何外部服务，保证索引/检索链路可跑通（无真实语义）。
+    # provider=openai-compatible：走真实 OpenAI-Compatible /embeddings 接口做真实语义向量。
+    #
+    # 切换到真实 embedding（推荐本地 Ollama，无需联网、无需 key）：
+    #   1. 安装并拉取模型：ollama pull nomic-embed-text   （或 ollama pull bge-m3）
+    #   2. 设置环境变量后重启后端：
+    #      REPOLENS_EMBEDDING_PROVIDER=openai-compatible
+    #      REPOLENS_EMBEDDING_BASE_URL=http://localhost:11434/v1
+    #      REPOLENS_EMBEDDING_MODEL_NAME=nomic-embed-text      # 维度 768；bge-m3 维度 1024
+    #      REPOLENS_EMBEDDING_API_KEY=ollama                   # Ollama 不校验 key，占位即可（不能留空）
+    #      REPOLENS_EMBEDDING_DIMENSION=768                    # 必须与模型输出维度一致，且与 Milvus collection 维度一致
+    #   注意：切换维度后需要重建 Milvus collection（旧向量维度不匹配会报错）。
+    #   注意：DeepSeek 目前没有公开的 embeddings 接口，真实语义向量请用本地 Ollama BGE/nomic。
+    #
+    # Fail-safe：provider=openai-compatible 但 endpoint 未启动/配置错误时，
+    # RoutingEmbeddingService 会自动回退到 mock（同一 dimension），检索不会 500。
+    provider: ${REPOLENS_EMBEDDING_PROVIDER:mock}
+    model-name: ${REPOLENS_EMBEDDING_MODEL_NAME:mock-embedding}
+    base-url: ${REPOLENS_EMBEDDING_BASE_URL:}
+    api-key: ${REPOLENS_EMBEDDING_API_KEY:}
+    dimension: ${REPOLENS_EMBEDDING_DIMENSION:384}
+    timeout-ms: ${REPOLENS_EMBEDDING_TIMEOUT_MS:15000}
+    batch-size: ${REPOLENS_EMBEDDING_BATCH_SIZE:16}
+  milvus:
+    host: localhost
+    port: 19530
+    collection-name: code_chunk_collection
+  vectorize:
+    batch-size: 16
+  index:
+    mq-enabled: true
+    topic: repo_index_topic
+    consumer-group: repolens-index-consumer
+    consumer-enabled: true
+    lock-ttl-minutes: ${REPOLENS_INDEX_LOCK_TTL_MINUTES:10}
+    send-timeout-ms: 5000
+    retry-scan-interval-ms: 30000
+    running-timeout-minutes: 5
+    pending-timeout-minutes: 1
+    retry-query-limit: 100
+    max-retry: 3
+  indexing:
+    repo-local-base-path: ./data/repos
+    # chunk-size/overlap 单位为字符数：1500 字符 ≈ ~375 tokens，控制在 embedding 512 输入窗口内。
+    chunk-size: 1500
+    chunk-overlap: 200
+    # 单文件字节上限：超过则跳过切块（默认 200KB），避免 minified/vendored 大文件污染向量库。
+    max-file-bytes: 204800
+    max-retry: 3
+
+  depcheck:
+    # ONLINE: registry存在性+OSV恶意检测（联网）; OFFLINE: 仅本地typo+离线快照（零网络，隐私场景）
+    mode: ${REPOLENS_DEPCHECK_MODE:ONLINE}
+    cache-ttl-days: ${REPOLENS_DEPCHECK_CACHE_TTL_DAYS:7}
+    # Java import过滤：同项目包前缀，空=仅过滤JDK内置(java./javax./jdk./sun.)
+    java-base-package: ${REPOLENS_JAVA_BASE_PACKAGE:}
+
+  insight:
+    # 敏感区命中规则（glob 风格，大小写不敏感，匹配文件名或类名）。
+    # 命中任一规则 → 步骤 kind=risk、节点 cls=danger、riskNote="触及 X，建议复审"。
+    # 设置为空列表（[]）可关闭敏感区规则。
+    sensitive-patterns:
+      - "*Security*"
+      - "*Auth*"
+      - "*Payment*"
+      - "delete*"
+      - "*Config"
+      - "*Migration*"
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn

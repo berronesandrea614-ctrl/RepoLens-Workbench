@@ -1,0 +1,251 @@
+/* Feature C: Spec↔Implementation Traceability View */
+
+.trace-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+}
+
+/* ── toolbar ── */
+.trace-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--vscode-editorGroup-border, #333);
+  flex-shrink: 0;
+}
+
+.trace-coverage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  min-width: 60px;
+}
+
+.trace-coverage-value {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.trace-coverage-label {
+  font-size: 0.75em;
+  opacity: 0.7;
+}
+
+.trace-coverage--green {
+  background: rgba(78, 201, 176, 0.15);
+  color: #4ec9b0;
+}
+
+.trace-coverage--yellow {
+  background: rgba(220, 170, 0, 0.15);
+  color: #dcaa00;
+}
+
+.trace-coverage--red {
+  background: rgba(240, 71, 71, 0.15);
+  color: #f04747;
+}
+
+.trace-summary {
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+
+.trace-degraded-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8em;
+  color: #dcaa00;
+  background: rgba(220, 170, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.trace-toolbar-spacer {
+  flex: 1;
+}
+
+.trace-btn {
+  background: var(--vscode-button-background, #0e639c);
+  color: var(--vscode-button-foreground, #fff);
+  border: none;
+  border-radius: 3px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+.trace-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── body / bipartite columns ── */
+.trace-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 1px;
+  background: var(--vscode-editorGroup-border, #333);
+}
+
+.trace-col {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--vscode-editor-background);
+}
+
+.trace-col--req {
+  flex: 0 0 28%;
+}
+
+.trace-col--edges {
+  flex: 0 0 34%;
+}
+
+.trace-col--sym {
+  flex: 1;
+}
+
+.trace-col-header {
+  padding: 6px 10px;
+  font-size: 0.8em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  border-bottom: 1px solid var(--vscode-editorGroup-border, #333);
+  flex-shrink: 0;
+}
+
+.trace-col-empty {
+  padding: 12px 10px;
+  opacity: 0.45;
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+/* ── node rows ── */
+.trace-node-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--vscode-editorGroup-border, #2a2a2a);
+  cursor: default;
+}
+
+.trace-node-row:hover {
+  background: var(--vscode-list-hoverBackground, rgba(255, 255, 255, 0.04));
+}
+
+.trace-node-row--dangling .trace-node-label {
+  color: #f04747;
+}
+
+.trace-node-row--orphan .trace-node-label {
+  color: #999;
+}
+
+.trace-node-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.88em;
+}
+
+.trace-node-flag {
+  font-size: 0.75em;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* ── edge rows ── */
+.trace-edge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-bottom: 1px solid var(--vscode-editorGroup-border, #2a2a2a);
+  font-size: 0.82em;
+}
+
+.trace-edge-row--stale {
+  opacity: 0.6;
+  border-left: 2px solid #f04747;
+}
+
+.trace-edge-src,
+.trace-edge-tgt {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.trace-edge-arrow {
+  opacity: 0.5;
+}
+
+.trace-edge-type {
+  font-size: 0.75em;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.trace-edge-conf {
+  opacity: 0.6;
+  font-size: 0.75em;
+  margin-left: auto;
+}
+
+/* ── layer groups ── */
+.trace-layer-group {
+  border-bottom: 1px solid var(--vscode-editorGroup-border, #333);
+}
+
+.trace-layer-label {
+  padding: 4px 10px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.55;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ── empty / loading ── */
+.trace-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  opacity: 0.5;
+}
+
+.trace-empty .codicon {
+  font-size: 2em;
+}
+
+.trace-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  opacity: 0.5;
+}

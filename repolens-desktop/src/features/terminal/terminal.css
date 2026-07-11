@@ -1,0 +1,8 @@
+.terminal-panel { height: 100%; background: #181818; display: flex; flex-direction: column; }
+.terminal-head { display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+  font-size: 11px; color: var(--vs-fg-dim); border-bottom: 1px solid var(--vs-border); }
+.terminal-close { margin-left: auto; cursor: pointer; }
+.terminal-close:hover { color: #fff; }
+.terminal-body { flex: 1; min-height: 0; padding: 2px 6px; }
+.terminal-fallback { align-items: center; justify-content: center; flex-direction: row;
+  gap: 8px; color: var(--vs-fg-dim); display: flex; font-size: 13px; }

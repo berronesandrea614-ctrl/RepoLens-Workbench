@@ -1,0 +1,93 @@
+.graph-view { display: flex; flex-direction: column; height: 100%; background: var(--vs-bg); }
+.graph-toolbar { display: flex; gap: 8px; align-items: center; padding: 8px 12px;
+  border-bottom: 1px solid var(--vs-border); flex-wrap: wrap; }
+.graph-toolbar input, .graph-toolbar select { background: #3c3c3c; color: var(--vs-fg);
+  border: 1px solid var(--vs-border); border-radius: 4px; padding: 3px 6px; font-size: 12px; }
+.graph-toolbar .hint { color: var(--vs-fg-dim); font-size: 12px; }
+.graph-canvas { flex: 1; min-height: 0; position: relative; }
+
+.graph-node-card { position: absolute; top: 12px; right: 12px; z-index: 15; width: 300px;
+  background: var(--vs-sidebar); border: 1px solid var(--vs-border); border-radius: 6px;
+  padding: 10px 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); pointer-events: auto; }
+.graph-node-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.graph-node-card-title { color: var(--vs-fg); font-size: 13px; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.graph-layer-badge { color: #fff; font-size: 10px; font-weight: 600; padding: 1px 7px;
+  border-radius: 9px; white-space: nowrap; }
+.graph-node-card-sig { display: block; font-family: var(--vs-font-mono, monospace); font-size: 11px;
+  color: #4daafc; background: var(--vs-bg); border: 1px solid var(--vs-border); border-radius: 4px;
+  padding: 4px 6px; margin-bottom: 6px; word-break: break-all; white-space: pre-wrap; }
+.graph-node-card-summary { color: var(--vs-fg-dim); font-size: 11px; line-height: 1.4; margin-bottom: 6px; }
+.graph-node-card-loc { color: var(--vs-fg-dim); font-size: 10px; font-family: var(--vs-font-mono, monospace);
+  word-break: break-all; }
+.graph-suggest { position: relative; }
+.graph-suggest-list { position: absolute; top: 26px; left: 0; z-index: 20; background: var(--vs-sidebar);
+  border: 1px solid var(--vs-border); border-radius: 4px; width: 320px; max-height: 240px; overflow: auto; }
+.graph-suggest-list div { padding: 4px 8px; cursor: pointer; font-size: 12px; }
+.graph-suggest-list div:hover { background: #094771; }
+.graph-suggest-empty { padding: 8px 10px; cursor: default; }
+.graph-suggest-empty div:hover { background: transparent; cursor: default; }
+.graph-suggest-empty-title { font-size: 12px; color: var(--vs-fg); font-weight: 600; padding: 0 0 4px; }
+.graph-suggest-empty-hint { font-size: 11px; line-height: 1.6; color: var(--vs-fg-dim); padding: 0; white-space: normal; }
+.graph-suggest-empty-hint b { color: #e3b341; font-weight: 600; }
+.graph-legend { display: flex; gap: 10px; padding: 4px 12px; font-size: 11px; color: var(--vs-fg-dim);
+  border-top: 1px solid var(--vs-border); flex-wrap: wrap; }
+.graph-legend span::before { content: "●"; margin-right: 3px; }
+
+/* T4: tracing toolbar buttons */
+.graph-trace-btn, .graph-restore-btn, .graph-focus-btn {
+  background: #3c3c3c; color: var(--vs-fg); border: 1px solid var(--vs-border);
+  border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; }
+.graph-trace-btn:hover, .graph-restore-btn:hover, .graph-focus-btn:hover { border-color: #4daafc; }
+.graph-trace-btn.active { background: #094771; border-color: #4daafc; color: #fff; }
+
+.graph-node-card-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+/* Progressive expansion: node badge + floating toolbar */
+.graph-node-inner { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.graph-node-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graph-expand-badge { flex: none; background: #094771; color: #fff; border: 1px solid #4daafc;
+  border-radius: 9px; font-size: 10px; font-weight: 600; line-height: 1; padding: 2px 6px;
+  cursor: pointer; user-select: none; }
+.graph-expand-badge:hover { background: #4daafc; color: #0d1117; }
+
+.graph-expand-bar { position: absolute; top: 12px; left: 12px; z-index: 15; display: flex;
+  align-items: center; gap: 8px; flex-wrap: wrap; background: var(--vs-sidebar);
+  border: 1px solid var(--vs-border); border-radius: 6px; padding: 5px 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); }
+.graph-expand-bar .hint { color: var(--vs-fg-dim); font-size: 11px; }
+.graph-expand-bar .graph-restore-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.graph-trace-hint { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 15; background: var(--vs-sidebar); border: 1px solid #4daafc; border-radius: 6px;
+  padding: 5px 12px; font-size: 11px; color: var(--vs-fg); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+
+/* T4: path highlight / dim */
+.react-flow__node.graph-node-dim { opacity: 0.25; transition: opacity 0.15s; }
+.react-flow__node.graph-node-hl { opacity: 1;
+  box-shadow: 0 0 0 2px #4daafc, 0 0 10px rgba(77, 170, 252, 0.5); border-radius: 6px; }
+.react-flow__edge.graph-edge-dim { opacity: 0.15; transition: opacity 0.15s; }
+.react-flow__edge.graph-edge-hl .react-flow__edge-path { stroke: #4daafc !important; stroke-width: 3 !important; }
+.react-flow__edge.graph-edge-hl .react-flow__edge-text { fill: #4daafc; }
+
+/* T5: graph flow explanation */
+.graph-explain-btn {
+  background: #3c3c3c; color: var(--vs-fg); border: 1px solid var(--vs-border);
+  border-radius: 4px; padding: 3px 10px; font-size: 12px; cursor: pointer; }
+.graph-explain-btn:hover:not(:disabled) { border-color: #4daafc; }
+.graph-explain-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.graph-explain-panel { display: flex; flex-direction: column; max-height: 40%; min-height: 120px;
+  border-top: 1px solid var(--vs-border); background: var(--vs-sidebar); }
+.graph-explain-head { display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+  border-bottom: 1px solid var(--vs-border); }
+.graph-explain-title { color: var(--vs-fg); font-size: 12px; font-weight: 600; flex: 1;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graph-explain-close { background: transparent; color: var(--vs-fg-dim); border: none;
+  font-size: 16px; line-height: 1; cursor: pointer; padding: 0 4px; }
+.graph-explain-close:hover { color: var(--vs-fg); }
+.graph-explain-body { flex: 1; min-height: 0; overflow: auto; padding: 10px 12px; }
+.graph-explain-text { color: var(--vs-fg); font-size: 12px; line-height: 1.6; white-space: pre-wrap;
+  word-break: break-word; }
+.graph-explain-status { color: var(--vs-fg-dim); font-size: 12px; }
+.graph-explain-error { color: #f48771; font-size: 12px; white-space: pre-wrap; }

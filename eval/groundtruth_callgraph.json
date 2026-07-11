@@ -1,0 +1,18 @@
+{
+  "_comment": "demo 仓库(repolens-demo-service)的真实调用关系真值。基于源码人工标注。intra=同仓调用(应被类型推断解析到全限定类),external=JDK/外部库(无 classpath 应退回文本匹配)。",
+  "intra_repo_calls": [
+    {"from": "UserController.getUser",    "to_qualified": "com.example.demo.service.UserService#getUserById"},
+    {"from": "UserController.createUser", "to_qualified": "com.example.demo.service.UserService#createUser"},
+    {"from": "UserService.getUserById",   "to_qualified": "com.example.demo.repository.UserRepository#findById"},
+    {"from": "UserService.createUser",    "to_qualified": "com.example.demo.repository.UserRepository#save"},
+    {"from": "UserService.createUser",    "to_qualified": "com.example.demo.entity.User#setCreatedAt"},
+    {"from": "UserRepository.save",       "to_qualified": "com.example.demo.entity.User#getId"},
+    {"from": "UserRepository.save",       "to_qualified": "com.example.demo.entity.User#setId"}
+  ],
+  "external_calls": [
+    {"to_qualified": "java.util.Map#get"},
+    {"to_qualified": "java.util.Map#put"},
+    {"to_qualified": "java.util.concurrent.atomic.AtomicLong#incrementAndGet"},
+    {"to_text": "SpringApplication.run"}
+  ]
+}

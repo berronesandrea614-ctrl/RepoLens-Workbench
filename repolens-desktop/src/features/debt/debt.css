@@ -1,0 +1,323 @@
+/* ============================================================
+   理解债务仪表盘样式
+   ============================================================ */
+
+.debt-view {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: var(--vs-font-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  font-size: 13px;
+}
+
+/* ---- 左侧 Top 列表 ---- */
+.debt-sidebar {
+  width: 280px;
+  min-width: 220px;
+  border-right: 1px solid #21262d;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.debt-sidebar-header {
+  padding: 10px 12px;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.debt-sidebar-header h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+}
+
+.debt-count-row {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.debt-count-badge {
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.debt-count-badge.red    { background: rgba(231,76,60,0.2); color: #e74c3c; }
+.debt-count-badge.yellow { background: rgba(243,156,18,0.2); color: #f39c12; }
+.debt-count-badge.green  { background: rgba(39,174,96,0.2);  color: #27ae60; }
+
+.debt-top-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.debt-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #161b22;
+  transition: background 0.12s;
+}
+
+.debt-item:hover {
+  background: #161b22;
+}
+
+.debt-item.active {
+  background: #1c2128;
+  border-left: 3px solid #4daafc;
+}
+
+.debt-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.debt-item-path {
+  font-size: 12px;
+  color: #8b949e;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.debt-score-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.debt-score-badge.red    { background: #e74c3c; color: #fff; }
+.debt-score-badge.yellow { background: #f39c12; color: #fff; }
+.debt-score-badge.green  { background: #27ae60; color: #fff; }
+
+.debt-item-name {
+  font-size: 13px;
+  color: #e6edf3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- 主区 ---- */
+.debt-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.debt-toolbar {
+  padding: 8px 12px;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #8b949e;
+}
+
+.debt-toolbar-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+  margin-right: auto;
+}
+
+.debt-stale-badge {
+  background: rgba(243,156,18,0.2);
+  color: #f39c12;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.debt-degraded-badge {
+  background: rgba(139,148,158,0.2);
+  color: #8b949e;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.debt-content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+
+/* ---- 下钻面板 ---- */
+.debt-drilldown {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 16px;
+  max-width: 640px;
+}
+
+.debt-drilldown-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.debt-drilldown-section {
+  margin-bottom: 16px;
+}
+
+.debt-drilldown-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #8b949e;
+  letter-spacing: 0.5px;
+}
+
+/* ---- 信号雷达（SVG 条形图） ---- */
+.debt-radar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.debt-signal-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.debt-signal-label {
+  width: 90px;
+  color: #8b949e;
+  flex-shrink: 0;
+}
+
+.debt-signal-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #21262d;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.debt-signal-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.debt-signal-value {
+  width: 36px;
+  text-align: right;
+  color: #e6edf3;
+}
+
+.debt-signal-degraded {
+  color: #8b949e;
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* ---- 偿债面板 ---- */
+.debt-repay-panel {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.debt-repay-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #161b22;
+  font-size: 12px;
+  color: #c9d1d9;
+}
+
+.debt-repay-item:last-child {
+  border-bottom: none;
+}
+
+/* ---- 可点击路径（Top 列表 / 下钻标题） ---- */
+.debt-item-path:hover,
+.debt-drilldown-path:hover {
+  color: #58a6ff;
+  text-decoration: underline;
+}
+
+/* ---- AI 文件讲解 + 相关文件/符号 ---- */
+.debt-explain-body {
+  border-left: 2px solid #30363d;
+  padding-left: 12px;
+}
+
+.debt-related-item {
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #c9d1d9;
+  border: 1px solid transparent;
+}
+
+.debt-related-item:hover {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.debt-related-path {
+  color: #58a6ff;
+}
+
+.debt-related-symbol {
+  color: #e3b341;
+  font-weight: 600;
+}
+
+.debt-related-reason {
+  color: #8b949e;
+}
+
+/* ---- Loading / Empty ---- */
+.debt-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.debt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 8px;
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.debt-empty .codicon {
+  font-size: 32px;
+  opacity: 0.5;
+}

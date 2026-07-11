@@ -1,0 +1,1 @@
+在这个 Java 项目(com.demo 包)里新建一个 Fib 类，提供 public static long fib(int n)：fib(0)=0、fib(1)=1、fib(n)=fib(n-1)+fib(n-2)。要求 n 较大时(如 fib(50))也能很快算出、不要指数级慢；当 n 为负数时抛 IllegalArgumentException。再写一个 Main 打印 fib(0) 到 fib(10)。最后确保 mvn 编译通过。

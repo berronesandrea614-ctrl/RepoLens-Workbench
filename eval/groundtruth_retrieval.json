@@ -1,0 +1,17 @@
+{
+  "_comment": "检索/问答标注集。query=用户问题(关键词降级模式下用英文符号);expected_files=该命中的文件(真值);relevant=该问题是否与本仓库相关(用于意图/相关性识别评测,false=无关应拒答)。",
+  "cases": [
+    {"query": "createUser", "relevant": true, "expected_files": ["UserController.java", "UserService.java"]},
+    {"query": "getUserById", "relevant": true, "expected_files": ["UserService.java"]},
+    {"query": "UserRepository save", "relevant": true, "expected_files": ["UserRepository.java"]},
+    {"query": "findById", "relevant": true, "expected_files": ["UserService.java", "UserRepository.java"]},
+    {"query": "UserController", "relevant": true, "expected_files": ["UserController.java"]},
+    {"query": "User entity", "relevant": true, "expected_files": ["User.java"]},
+
+    {"query": "kubernetes pod scheduler", "relevant": false, "expected_files": []},
+    {"query": "redis cluster failover", "relevant": false, "expected_files": []},
+    {"query": "tensorflow gradient descent", "relevant": false, "expected_files": []},
+    {"query": "payment refund workflow", "relevant": false, "expected_files": []},
+    {"query": "kafka consumer rebalance", "relevant": false, "expected_files": []}
+  ]
+}

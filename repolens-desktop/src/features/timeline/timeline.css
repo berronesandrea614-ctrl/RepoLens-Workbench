@@ -1,0 +1,177 @@
+/* ── Timeline view container ─────────────────────────────────────────────── */
+.timeline-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--vs-bg, #0d1117);
+  color: var(--vs-fg, #e6edf3);
+  font-size: 12px;
+  overflow: hidden;
+}
+
+/* Full-height centred placeholder (loading / empty / error states) */
+.timeline-state-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--vs-fg-dim, #6e7681);
+  gap: 8px;
+}
+.timeline-error {
+  color: #e74c3c;
+}
+
+/* ── Header bar ─────────────────────────────────────────────────────────── */
+.timeline-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--vs-border, #30363d);
+  flex-wrap: wrap;
+}
+.timeline-title {
+  font-weight: 600;
+  color: var(--vs-fg, #e6edf3);
+}
+.timeline-badge {
+  background: #3c3c3c;
+  border: 1px solid var(--vs-border, #30363d);
+  border-radius: 9px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--vs-fg-dim, #6e7681);
+}
+.timeline-badge-warn {
+  border-color: #f39c12;
+  color: #f39c12;
+  background: rgba(243, 156, 18, 0.08);
+}
+
+/* ── Current frame info strip ───────────────────────────────────────────── */
+.timeline-frame-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-bottom: 1px solid var(--vs-border, #30363d);
+  font-size: 12px;
+  min-height: 26px;
+}
+.timeline-frame-label {
+  font-weight: 600;
+  color: #4daafc;
+}
+.timeline-frame-detail {
+  color: var(--vs-fg-dim, #6e7681);
+}
+.timeline-frame-loading {
+  color: var(--vs-fg-dim, #6e7681);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Scrubber ─────────────────────────────────────────────────────────── */
+.timeline-scrubber {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--vs-border, #30363d);
+}
+.timeline-scrubber-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Step / play buttons */
+.timeline-btn {
+  background: #3c3c3c;
+  color: var(--vs-fg, #e6edf3);
+  border: 1px solid var(--vs-border, #30363d);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1.4;
+  user-select: none;
+  transition: border-color 0.15s;
+}
+.timeline-btn:hover:not(:disabled) {
+  border-color: #4daafc;
+}
+.timeline-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.timeline-btn-play {
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Range slider */
+.timeline-slider {
+  flex: 1;
+  accent-color: #4daafc;
+  height: 4px;
+  cursor: pointer;
+}
+
+/* ── Tick strip (one tick per frame) ─────────────────────────────────────── */
+.timeline-ticks {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #484f58 transparent;
+}
+.timeline-tick {
+  flex: none;
+  width: 10px;
+  height: 12px;
+  background: #30363d;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.timeline-tick:hover {
+  background: #4daafc66;
+}
+.timeline-tick.active {
+  background: #4daafc;
+}
+
+/* ── Legend ─────────────────────────────────────────────────────────────── */
+.timeline-legend {
+  display: flex;
+  gap: 14px;
+  padding: 4px 14px;
+  border-bottom: 1px solid var(--vs-border, #30363d);
+  flex-wrap: wrap;
+}
+.timeline-legend-item {
+  font-size: 11px;
+}
+
+/* ── Graph canvas area ───────────────────────────────────────────────────── */
+.timeline-canvas {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* hint text in state screens */
+.timeline-hint-text {
+  font-size: 11px;
+  color: var(--vs-fg-dim, #6e7681);
+  max-width: 320px;
+  text-align: center;
+  line-height: 1.5;
+}

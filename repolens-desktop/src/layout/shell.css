@@ -1,0 +1,179 @@
+:root {
+  --vs-bg: #171a21;
+  --vs-sidebar: #1a1e26;
+  --vs-activity: #12151b;
+  --vs-border: #262b36;
+  --vs-fg: #cccccc;
+  --vs-fg-dim: #8b949e;
+  --vs-accent: #4daafc;
+  --vs-statusbar: #0078d4;
+  --vs-titlebar: #1a1e26;
+  --vs-list-hover: #212632;
+  --vs-list-active: #2a3140;
+  --vs-input-bg: #232833;
+}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: -apple-system, "SF Pro Text", "Segoe UI", sans-serif; font-size: 13px;
+  color: var(--vs-fg); background: var(--vs-bg); overflow: hidden; }
+
+.shell { display: flex; flex-direction: column; height: 100%; }
+.shell-body { flex: 1; min-height: 0; display: flex; }
+
+.title-bar { height: 34px; background: var(--vs-titlebar); display: flex; align-items: center;
+  justify-content: flex-start; position: relative; z-index: 1; user-select: none; flex-shrink: 0;
+  border-bottom: 1px solid var(--vs-border); }
+/* 红绿灯占位不再自身占宽（避免与 .title-text 的 padding-left 双重偏移）；
+   左侧让位统一由 .title-text 的 padding-left 负责，Tauri/浏览器表现一致。 */
+.traffic-light-spacer { width: 0; height: 100%; flex-shrink: 0; }
+.title-text { font-size: 12px; color: var(--vs-fg-dim); padding-left: 82px; }
+
+.activity { width: 48px; background: var(--vs-activity); display: flex; flex-direction: column;
+  align-items: center; padding-top: 4px; flex-shrink: 0;
+  /* 工具多时纵向可滚动，避免最后的工具(如出网监控)被窗口高度裁掉看不见 */
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.activity::-webkit-scrollbar { width: 0; height: 0; }
+.activity .icon { width: 48px; height: 44px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #858585; border-left: 2px solid transparent; flex-shrink: 0; }
+.activity .icon .codicon { font-size: 22px; }
+.activity .icon:hover { color: #e6edf3; }
+.activity .icon.active { color: #ffffff; border-left-color: #ffffff; }
+/* 拖动排序（指针驱动）：可排序项抓手光标；拖动中禁选中；被拖项淡化；目标位置上沿插入线 */
+.activity .icon.reorderable { position: relative; cursor: grab; }
+.activity.reordering { user-select: none; cursor: grabbing; }
+.activity.reordering .icon.reorderable { cursor: grabbing; }
+.activity .icon.reorderable.dragging { opacity: 0.35; }
+.activity .icon.reorderable.drag-over::before {
+  content: ""; position: absolute; top: 0; left: 4px; right: 4px; height: 2px;
+  background: #4daafc; border-radius: 1px;
+}
+.activity-spacer { flex: 1; }
+
+.sidebar { height: 100%; background: var(--vs-sidebar); display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-title { padding: 8px 16px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--vs-fg-dim); flex-shrink: 0; }
+.sidebar-scroll { flex: 1; overflow: auto; }
+
+.tree-header { display: flex; align-items: center; height: 24px; padding: 0 8px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--vs-fg-dim); }
+.tree-header-title { flex: 1; }
+.tree-header-btn { background: none; border: none; color: var(--vs-fg-dim); cursor: pointer;
+  padding: 2px 4px; border-radius: 3px; font-size: 14px; }
+.tree-header-btn:hover { background: var(--vs-list-hover); color: inherit; }
+.tree-header-btn:disabled { opacity: .5; cursor: default; }
+
+.statusbar button.stale { cursor: pointer; border: none; color: #fff; font: inherit;
+  display: inline-flex; align-items: center; gap: 3px; height: 18px; }
+.statusbar button.stale:hover { background: #c8a520; }
+.statusbar button.stale:disabled { cursor: default; opacity: .85; }
+.statusbar-toast { color: #d7d7d7; }
+@keyframes codicon-spin { 100% { transform: rotate(360deg); } }
+.codicon-modifier-spin { animation: codicon-spin 1s steps(12) infinite; display: inline-block; }
+
+.resize-handle-v { width: 2px; background: transparent; cursor: col-resize; }
+.resize-handle-v:hover, .resize-handle-v[data-resize-handle-active] { background: var(--vs-accent); }
+.resize-handle-h { height: 2px; background: transparent; cursor: row-resize; }
+.resize-handle-h:hover, .resize-handle-h[data-resize-handle-active] { background: var(--vs-accent); }
+
+.editor-zone, .editor { height: 100%; display: flex; flex-direction: column; background: var(--vs-bg); min-width: 0; }
+.terminal-placeholder { height: 100%; background: var(--vs-bg); }
+
+.statusbar { height: 22px; background: var(--vs-statusbar); color: #ffffff; display: flex;
+  align-items: center; padding: 0 10px; font-size: 12px; gap: 14px; flex-shrink: 0; }
+.statusbar .right { margin-left: auto; display: flex; gap: 14px; }
+.statusbar .codicon { font-size: 13px; vertical-align: -2px; }
+.statusbar .stale { background: #a8891e; padding: 0 6px; border-radius: 3px; }
+
+.reveal-line-highlight { background: rgba(0, 120, 212, 0.25); }
+.save-error { background: #5a1d1d; color: #f48771; padding: 4px 12px; font-size: 12px; }
+
+/* CC-3: conflict banner — file changed externally while editor has unsaved edits */
+.conflict-banner {
+  background: #5a3d0a; color: #e5b85a; padding: 4px 12px;
+  font-size: 12px; display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.conflict-banner-dismiss {
+  background: none; border: none; color: #e5b85a; cursor: pointer; padding: 0 6px;
+  font-size: 12px; opacity: 0.8;
+}
+.conflict-banner-dismiss:hover { opacity: 1; }
+
+/* CC-4: Send to Claude floating button in the editor top-right corner */
+.send-to-claude-btn {
+  position: absolute; top: 6px; right: 44px; z-index: 10;
+  background: #1e3a5f; color: #4fc3f7; border: 1px solid #4fc3f7;
+  border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer;
+  opacity: 0.85; transition: opacity 0.15s;
+}
+.send-to-claude-btn:hover { opacity: 1; background: #1a4a7a; }
+
+.editor-group { height: 100%; display: flex; flex-direction: column; background: var(--vs-bg);
+  min-width: 0; border-top: 1px solid transparent; }
+.editor-group.active-group { border-top: 1px solid var(--vs-accent); }
+
+.tabs { display: flex; align-items: center; background: var(--vs-sidebar);
+  border-bottom: 1px solid var(--vs-border); overflow-x: auto; flex-shrink: 0; scrollbar-width: thin; }
+.tabs-actions { display: flex; align-items: center; margin-left: auto; padding: 0 6px;
+  flex-shrink: 0; gap: 2px; }
+.tabs-action { color: var(--vs-fg-dim); cursor: pointer; padding: 4px; border-radius: 4px;
+  font-size: 15px; }
+.tabs-action:hover { color: var(--vs-fg); background: #ffffff22; }
+.tab { display: flex; align-items: center; gap: 6px; padding: 0 10px; height: 35px;
+  background: var(--vs-list-hover); border-right: 1px solid var(--vs-border); cursor: pointer;
+  color: var(--vs-fg-dim); font-size: 13px; white-space: nowrap; }
+.tab.active { background: var(--vs-bg); color: #ffffff; border-top: 1px solid var(--vs-accent); }
+.tab .codicon { font-size: 14px; }
+.tab-close, .tab-dirty { border-radius: 4px; padding: 2px; }
+/* 默认：脏标记只在 dirty 时显示，关闭按钮仅在 hover 显示 */
+.tab .tab-dirty { display: none; }
+.tab.dirty .tab-dirty { display: inline; }
+.tab .tab-close { display: none; }
+.tab:hover .tab-close { display: inline; }
+/* dirty 标签 hover 时点→X：隐藏圆点，露出关闭按钮 */
+.tab.dirty:hover .tab-dirty { display: none; }
+.tab-close:hover, .tab-dirty:hover { background: #ffffff22; }
+.breadcrumbs { display: flex; align-items: center; padding: 3px 12px; font-size: 12px;
+  color: var(--vs-fg-dim); flex-shrink: 0; overflow: hidden; white-space: nowrap; }
+.breadcrumbs .crumb { display: inline-flex; align-items: center; gap: 2px; }
+.breadcrumbs .codicon-chevron-right { font-size: 12px; margin: 0 2px; }
+.breadcrumbs .file { color: var(--vs-fg); gap: 4px; }
+
+.tree { font-size: 13px; user-select: none; }
+.tree-row { display: flex; align-items: center; gap: 5px; height: 22px; cursor: pointer;
+  color: var(--vs-fg); white-space: nowrap; overflow: hidden; }
+.tree-row:hover { background: var(--vs-list-hover); }
+.tree-row.active { background: var(--vs-list-active); }
+.tree-row .codicon { font-size: 15px; flex-shrink: 0; }
+.tree-label { overflow: hidden; text-overflow: ellipsis; }
+
+/* C3: 标题栏常驻「隐藏/显示编辑器」切换按钮（放标题栏，避免与视图内按钮重叠） */
+.title-editor-toggle {
+  margin-left: auto; margin-right: 10px;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 10px; font-size: 11.5px; cursor: pointer;
+  color: var(--vs-fg-dim); background: transparent;
+  border: 1px solid var(--vs-border); border-radius: 5px;
+  -webkit-app-region: no-drag;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.title-editor-toggle:hover { color: var(--vs-fg); border-color: var(--vs-accent); background: var(--vs-list-hover); }
+
+/* 实时改动高亮工具条（agent realtimeDiff）：文件级 接受/拒绝 */
+.realtime-diff-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 10px; background: #1c2330; border-bottom: 1px solid #30363d;
+  font-size: 12px; color: #c9d1d9;
+}
+.realtime-diff-title { color: #e3b341; font-weight: 600; }
+.realtime-diff-error { color: #f85149; font-size: 11px; }
+.realtime-diff-spacer { flex: 1; }
+.realtime-btn:disabled { opacity: 0.5; cursor: default; }
+.realtime-btn {
+  padding: 2px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  border: 1px solid transparent; color: #fff;
+}
+.realtime-accept { background: #238636; border-color: #2ea043; }
+.realtime-accept:hover { background: #2ea043; }
+.realtime-reject { background: transparent; border-color: #6e7681; color: #e6edf3; }
+.realtime-reject:hover { background: #30363d; }

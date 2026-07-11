@@ -1,0 +1,1 @@
+在这个 Java 项目(com.demo 包)里新建一个 IntStack 类，实现一个整数栈：push(int)、pop() 返回并弹出栈顶 int、peek() 返回栈顶 int 但不弹出、isEmpty() 返回 boolean、size() 返回 int。当在空栈上 pop() 或 peek() 时抛 java.util.EmptyStackException。再写一个 Main 演示。最后确保 mvn 编译通过。

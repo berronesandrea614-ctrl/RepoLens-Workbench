@@ -1,0 +1,29 @@
+# Build output
+target/
+
+# Local workspace / test repos (not baked into image)
+workspace/
+test-repos/
+
+# Frontend / Tauri (not needed for backend image)
+repolens-desktop/
+repolens-web/
+
+# Node modules
+node_modules/
+
+# Git / IDE / OS
+.git/
+.idea/
+*.iml
+.DS_Store
+
+# Logs & env
+*.log
+.env
+run-local.sh
+
+# Docs / reports (keep image lean)
+docs/
+eval/
+scripts/

@@ -1,0 +1,197 @@
+/* M8 方案卡组样式（聊天流内联）。配色沿用工作台 CSS 变量，与 Agent 轨迹保持一致。 */
+
+.sol-cards {
+  margin-top: 10px;
+  border: 1px solid var(--vs-border);
+  border-radius: 8px;
+  padding: 10px 12px 12px;
+  background: var(--vs-sidebar);
+}
+
+.sol-head {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.sol-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vs-fg);
+}
+
+.sol-sub {
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+  line-height: 1.5;
+}
+
+.sol-error {
+  font-size: 11px;
+  color: #f85149;
+  margin-bottom: 8px;
+}
+
+.sol-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.sol-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 1px solid var(--vs-border);
+  border-radius: 6px;
+  padding: 9px 10px;
+  background: var(--vs-bg);
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+/* 推荐分支描边高亮；已选定分支绿边定型；未被选中的作废分支淡出。 */
+.sol-card--rec {
+  border-color: #d9a41e;
+}
+
+.sol-card--selected {
+  border-color: #3fb950;
+  box-shadow: 0 0 0 1px #3fb95055;
+}
+
+.sol-card--discarded {
+  opacity: 0.5;
+}
+
+.sol-card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sol-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vs-fg);
+}
+
+.sol-badge {
+  font-size: 10px;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.sol-badge--rec {
+  background: #d9a41e22;
+  color: #e3b341;
+}
+
+.sol-badge--sel {
+  background: #3fb95022;
+  color: #7ee787;
+}
+
+.sol-badge--dis {
+  background: #30363d;
+  color: var(--vs-fg-dim);
+}
+
+.sol-card-hint {
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+  line-height: 1.5;
+}
+
+.sol-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.sol-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.sol-metric-label {
+  color: var(--vs-fg-dim);
+}
+
+.sol-metric-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--vs-fg);
+}
+
+.sol-metric-value--add {
+  color: #7ee787;
+}
+
+.sol-metric-value--del {
+  color: #f85149;
+}
+
+.sol-verify {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+}
+
+.sol-verify-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--vs-fg-dim);
+}
+
+.sol-verify--ok .sol-verify-dot {
+  background: #3fb950;
+}
+
+.sol-verify--fail .sol-verify-dot {
+  background: #f85149;
+}
+
+.sol-verify--unknown .sol-verify-dot {
+  background: #8b949e;
+}
+
+.sol-final {
+  font-size: 11px;
+  color: var(--vs-fg-dim);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-top: 1px dashed var(--vs-border);
+  padding-top: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.sol-choose {
+  margin-top: 2px;
+  border: 1px solid var(--vs-accent);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--vs-accent);
+  font-size: 11px;
+  padding: 5px 0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sol-choose:hover:not(:disabled) {
+  background: var(--vs-accent);
+  color: #fff;
+}
+
+.sol-choose:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

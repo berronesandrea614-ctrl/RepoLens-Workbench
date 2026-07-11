@@ -1,0 +1,139 @@
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--vs-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.login-card {
+  background: var(--vs-sidebar);
+  border: 1px solid var(--vs-border);
+  border-radius: 6px;
+  padding: 40px 48px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-logo {
+  font-size: 36px;
+  color: var(--vs-accent);
+  margin-bottom: 12px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--vs-fg);
+  margin: 0 0 4px;
+}
+
+.login-subtitle {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+  margin: 0 0 28px;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login-field label {
+  font-size: 12px;
+  color: var(--vs-fg-dim);
+  font-weight: 500;
+}
+
+.login-field input {
+  background: var(--vs-input-bg);
+  color: var(--vs-fg);
+  border: 1px solid var(--vs-border);
+  border-radius: 2px;
+  padding: 7px 10px;
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+}
+
+.login-field input:focus {
+  border-color: var(--vs-accent);
+}
+
+.login-field input:disabled {
+  opacity: 0.6;
+}
+
+.login-error {
+  font-size: 12px;
+  color: #f48771;
+  padding: 4px 0;
+}
+
+.login-btn {
+  background: var(--vs-accent);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.login-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Mode toggle tabs */
+.login-tabs {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid var(--vs-border);
+  margin-bottom: 20px;
+}
+
+.login-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--vs-fg-dim);
+  font-size: 13px;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.login-tab:hover:not(:disabled) {
+  color: var(--vs-fg);
+}
+
+.login-tab--active {
+  color: var(--vs-accent);
+  border-bottom-color: var(--vs-accent);
+  font-weight: 500;
+}
+
+.login-tab:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
