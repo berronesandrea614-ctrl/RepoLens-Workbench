@@ -62,7 +62,7 @@ DeepSeek / OpenAI / Anthropic / Gemini / 通义 / 智谱 / Kimi / 本地 Ollama 
 
 ![设置：可插拔大模型 + 链路自检 + 语言切换](docs/screenshots/shot-settings.png)
 
-> 顶部还有一个 **Claude Code** 标签页——想用官方 Claude Code 终端也行，两种引擎并存。
+> 顶部还有一个 **Claude Code** 标签页——想用官方 Claude Code 终端也行，两种引擎并存并且可以直接简洁的连飞书机器人，用手机给Claude下指令。
 >
 > ![Claude Code 引擎 + 飞书移动端](docs/screenshots/shot-claude-feishu.png)
 
@@ -87,22 +87,6 @@ cd repolens-desktop && npm install && VITE_API_BASE_URL=http://localhost:8083 np
 
 - **想完全离线**？把模型指向本地 Ollama 即可；`provider=mock` 连模型都不用配，也能跑通整条链路。
 - **要发布版**？`cd repolens-desktop && npm run tauri build` → 生成 `.app` / `.dmg`，双击即用、不用再编译。
-
----
-
-## 🔬 顺便，做了个消融实验
-
-内核里那些机制，到底有没有用？自己搭了个评测（7 种配置 × 4 个真实编码任务，全程真跑 DeepSeek + 自动判分）：
-
-| 配置 | 成功率 | AI 谎报"我做完了" |
-|---|---|---|
-| **全组件** | 4/4（100%） | 0 |
-| 去掉**对抗性自检门** | 3/4（75%，↓25pp） | 1 |
-| 去掉**验证步** | 3/4（75%，↓25pp） | 1 |
-
-去掉"自检门"或"验证"任意一个，成功率就从 100% 掉到 75%，还各出现一次"AI 自称完成、判分其实没过"——失败点都精准落在同一个整数除法丢精度的 bug 上。说明这两个机制真在拦真 bug，不是摆设。
-
-> 老实说：每格只跑了 1 次、任务也就 4 个且偏小，这数字是**指示性**的、不是严谨统计。后面几个组件在这套简单任务上没拉开差距，得设计更针对性的任务才能验证。（把丑话说前面，比藏着好。）
 
 ---
 
